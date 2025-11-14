@@ -1,0 +1,21 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Detalle de {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+    <h1>{{ curso.nombre }}</h1>
+    <p><strong>Descripción:</strong> {{ curso.descripcion }}</p>
+    <p><strong>Profesor:</strong> <a href="{% url 'academico:profesor_detail' curso.profesor.pk %}">{{ curso.profesor.nombre }}</a></p>
+
+    <h2>Estudiantes inscritos:</h2>
+    <ul>
+        {% for inscripcion in curso.inscripcion_set.all %}
+            <li>
+                <a href="{% url 'academico:estudiante_detail' inscripcion.estudiante.pk %}">{{ inscripcion.estudiante.nombre }}</a> 
+                (Estado: {{ inscripcion.get_estado_display }}, Nota: {{ inscripcion.nota_final|default:"N/A" }})
+            </li>
+        {% empty %}
+            <li>No hay estudiantes inscritos en este curso.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

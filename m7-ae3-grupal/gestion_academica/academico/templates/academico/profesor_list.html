@@ -1,0 +1,14 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Lista de Profesores{% endblock %}
+
+{% block content %}
+    <h1>Profesores</h1>
+    <ul>
+        {% for profesor in profesores %}
+            <li><a href="{% url 'academico:profesor_detail' profesor.pk %}">{{ profesor.nombre }}</a></li>
+        {% empty %}
+            <li>No hay profesores registrados.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

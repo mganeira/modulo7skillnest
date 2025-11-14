@@ -1,0 +1,27 @@
+<!-- academico/templates/academico/base.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plataforma Académica{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        nav { margin-bottom: 1em; }
+        nav a { margin-right: 1em; }
+        .container { max-width: 800px; margin: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="{% url 'academico:profesor_list' %}">Profesores</a>
+            <a href="{% url 'academico:curso_list' %}">Cursos</a>
+            <a href="{% url 'academico:estudiante_list' %}">Estudiantes</a>
+        </nav>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

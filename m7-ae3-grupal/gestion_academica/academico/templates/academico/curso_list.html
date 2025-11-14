@@ -1,0 +1,14 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Lista de Cursos{% endblock %}
+
+{% block content %}
+    <h1>Cursos</h1>
+    <ul>
+        {% for curso in cursos %}
+            <li><a href="{% url 'academico:curso_detail' curso.pk %}">{{ curso.nombre }}</a> (Profesor: {{ curso.profesor.nombre }})</li>
+        {% empty %}
+            <li>No hay cursos registrados.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

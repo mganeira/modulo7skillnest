@@ -1,0 +1,14 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Lista de Estudiantes{% endblock %}
+
+{% block content %}
+    <h1>Estudiantes</h1>
+    <ul>
+        {% for estudiante in estudiantes %}
+            <li><a href="{% url 'academico:estudiante_detail' estudiante.pk %}">{{ estudiante.nombre }}</a></li>
+        {% empty %}
+            <li>No hay estudiantes registrados.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

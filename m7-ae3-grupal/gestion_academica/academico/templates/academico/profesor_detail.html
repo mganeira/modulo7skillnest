@@ -1,0 +1,17 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Detalle de {{ profesor.nombre }}{% endblock %}
+
+{% block content %}
+    <h1>{{ profesor.nombre }}</h1>
+    <p><strong>Email:</strong> {{ profesor.email }}</p>
+    
+    <h2>Cursos que imparte:</h2>
+    <ul>
+        {% for curso in profesor.cursos.all %}
+            <li><a href="{% url 'academico:curso_detail' curso.pk %}">{{ curso.nombre }}</a></li>
+        {% empty %}
+            <li>Este profesor no imparte ningún curso actualmente.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
