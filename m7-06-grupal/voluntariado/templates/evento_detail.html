@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ evento.titulo }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0">
+                    <i class="fas fa-calendar-alt"></i> {{ evento.titulo }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5><i class="fas fa-info-circle text-success"></i> Descripción</h5>
+                    <p class="lead">{{ evento.descripcion }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <h5><i class="fas fa-calendar text-success"></i> Fecha del Evento</h5>
+                    <p class="h4">
+                        <span class="badge bg-primary">
+                            {{ evento.fecha|date:"l, d \d\e F \d\e Y" }}
+                        </span>
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <h5><i class="fas fa-users text-success"></i> Voluntarios Asignados</h5>
+                    {% if voluntarios %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for voluntario in voluntarios %}
+                                <tr>
+                                    <td><strong>{{ voluntario.nombre }}</strong></td>
+                                    <td>
+                                        <i class="fas fa-envelope text-muted"></i> 
+                                        {{ voluntario.email }}
+                                    </td>
+                                    <td>
+                                        {% if voluntario.telefono %}
+                                            <i class="fas fa-phone text-muted"></i> 
+                                            {{ voluntario.telefono }}
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-muted">
+                        Total de voluntarios: <strong>{{ voluntarios.count }}</strong>
+                    </p>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        No hay voluntarios asignados a este evento todavía.
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'evento_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver a la Lista
+                    </a>
+                    <a href="{% url 'evento_update' evento.id %}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar Evento
+                    </a>
+                    <a href="{% url 'evento_delete' evento.id %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar Evento
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow mb-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar"></i> Estadísticas
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="fas fa-users text-info"></i>
+                        <strong>Voluntarios:</strong>
+                        <span class="badge bg-info float-end">{{ voluntarios.count }}</span>
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-calendar text-info"></i>
+                        <strong>Fecha:</strong>
+                        <br>
+                        <small class="text-muted">{{ evento.fecha|date:"d/m/Y" }}</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-cog"></i> Acciones Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'evento_update' evento.id %}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'voluntario_list' %}" class="btn btn-primary">
+                        <i class="fas fa-users"></i> Ver Voluntarios
+                    </a>
+                    <a href="{% url 'evento_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-calendar-alt"></i> Ver Todos los Eventos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
