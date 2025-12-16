@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Evento{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h2 class="mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>¡Atención!</strong> Esta acción no se puede deshacer.
+                </div>
+
+                <h4 class="mb-3">¿Estás seguro de que deseas eliminar este evento?</h4>
+                
+                <div class="card bg-light mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-calendar-alt"></i> {{ evento.titulo }}
+                        </h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <i class="fas fa-align-left text-muted"></i> 
+                                <strong>Descripción:</strong>
+                                <p class="mt-1 ms-4">{{ evento.descripcion }}</p>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-calendar text-muted"></i> 
+                                <strong>Fecha:</strong> {{ evento.fecha|date:"d/m/Y" }}
+                            </li>
+                            <li>
+                                <i class="fas fa-users text-muted"></i> 
+                                <strong>Voluntarios asignados:</strong> 
+                                <span class="badge bg-info">{{ evento.voluntarios.count }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {% if evento.voluntarios.count > 0 %}
+                <div class="alert alert-info" role="alert">
+                    <i class="fas fa-info-circle"></i>
+                    Este evento tiene <strong>{{ evento.voluntarios.count }} voluntario(s)</strong> asignado(s). 
+                    Al eliminarlo, los voluntarios no serán eliminados, solo se removerá su asignación a este evento.
+                    
+                    <div class="mt-3">
+                        <strong>Voluntarios que participan:</strong>
+                        <ul class="mb-0 mt-2">
+                            {% for voluntario in evento.voluntarios.all %}
+                            <li>{{ voluntario.nombre }} ({{ voluntario.email }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Ejercicio 3: Formulario con CSRF Token para eliminación -->
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'evento_list' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Sí, Eliminar Evento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

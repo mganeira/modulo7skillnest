@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Voluntario{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h2 class="mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>¡Atención!</strong> Esta acción no se puede deshacer.
+                </div>
+
+                <h4 class="mb-3">¿Estás seguro de que deseas eliminar este voluntario?</h4>
+                
+                <div class="card bg-light mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-user"></i> {{ voluntario.nombre }}
+                        </h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <i class="fas fa-envelope text-muted"></i> 
+                                <strong>Email:</strong> {{ voluntario.email }}
+                            </li>
+                            {% if voluntario.telefono %}
+                            <li>
+                                <i class="fas fa-phone text-muted"></i> 
+                                <strong>Teléfono:</strong> {{ voluntario.telefono }}
+                            </li>
+                            {% endif %}
+                            <li>
+                                <i class="fas fa-calendar text-muted"></i> 
+                                <strong>Registrado:</strong> {{ voluntario.fecha_registro|date:"d/m/Y H:i" }}
+                            </li>
+                            <li>
+                                <i class="fas fa-calendar-alt text-muted"></i> 
+                                <strong>Eventos asignados:</strong> 
+                                <span class="badge bg-info">{{ voluntario.eventos.count }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {% if voluntario.eventos.count > 0 %}
+                <div class="alert alert-info" role="alert">
+                    <i class="fas fa-info-circle"></i>
+                    Este voluntario está asignado a <strong>{{ voluntario.eventos.count }} evento(s)</strong>. 
+                    Al eliminarlo, se removerá de todos esos eventos.
+                </div>
+                {% endif %}
+
+                <!-- Ejercicio 3: Formulario con CSRF Token para eliminación -->
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'voluntario_list' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Sí, Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
